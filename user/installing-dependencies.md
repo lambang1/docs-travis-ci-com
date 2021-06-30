@@ -18,7 +18,7 @@ before_install:
 ```
 {: data-file=".travis.yml"}
 
-By default, `apt-get update` does not get run automatically. If you want to update `apt-get` automatically on every build, there are two ways to do this. The first is by running `apt-get update` explicitly in the `before_install` step:
+By default, `apt-get update` does not get run automatically. If you want to update `apt-get update` automatically on every build, there are two ways to do this. The first is by running `apt-get update` explicitly in the `before_install` step:
 
 ```yaml
 before_install:
@@ -142,6 +142,8 @@ addons:
 
 > Note: If `apt-get install` fails, the build is marked an error.
 
+> You can also have a look at the [Apt](https://config.travis-ci.com/ref/job/addons/apt) section in our [Travis CI Build Config Reference](https://config.travis-ci.com/).
+
 ### Installing Snap Packages with the Snaps Addon
 
 You can install [snap](http://snapcraft.io/) packages using our Xenial or
@@ -177,7 +179,7 @@ of the two possible forms:
     This results in:
 
       ```
-      $ sudo snaps install hugo
+      $ sudo snap install hugo
       ```
 
 1. The map specifying how the snap should be installed. Possible keys are:
@@ -199,7 +201,7 @@ of the two possible forms:
     This results in:
 
       ```
-      $ sudo snaps install aws-cli --classic --channel=latest/edge
+      $ sudo snap install aws-cli --classic --channel=latest/edge
       ```
 
     `confinement` and `channel` are optional.
@@ -299,6 +301,28 @@ brew install openssl
 rvm use $TRAVIS_RUBY_VERSION # optionally, switch back to the Ruby version you need.
 ```
 
+> You can also have a look at the [Homebrew](https://config.travis-ci.com/ref/job/addons/homebrew) section in our [Travis CI Build Config Reference](https://config.travis-ci.com/).
+
+## Installing Packages on FreeBSD
+
+To install packages that are not included in the default FreeBSD environment use `pkg` in the `before_install` step of your `.travis.yml`:
+
+```yaml
+before_install:
+  - su -m root -c 'pkg install -y curl'
+```
+{: data-file=".travis.yml"}
+
+For convenience, you can use the `pkg` addon in your `.travis.yml`. For example, to install go and curl:
+
+```yaml
+addons: 
+ pkg: 
+  - go 
+  - curl
+```
+{: data-file=".travis.yml"}
+
 ## Installing Dependencies on Multiple Operating Systems
 
 If you're testing on both Linux and macOS, you can use both the APT addon and the Homebrew addon together. Each addon will only run on the appropriate platform:
@@ -336,7 +360,7 @@ before_script:
 ```
 {: data-file=".travis.yml"}
 
-Note that when you're updating the `$PATH` environment variable, that part can't be moved into a shell script, as it will only update the variable for the sub-process that's running the script.
+> Note that when you're updating the `$PATH` environment variable, that part can't be moved into a shell script, as it will only update the variable for the sub-process that's running the script.
 
 To install something from source, you can follow similar steps. Here's an example to download, compile and install the protobufs library.
 
