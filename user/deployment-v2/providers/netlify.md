@@ -10,15 +10,15 @@ after a successful build.
 
 {% include deploy/providers/netlify.md %}
 
-## Deploying a specific directory
+## Deploy a specific directory
 
-To deploy a specific directory, use the `local_dir` key:
+To deploy a specific directory, use the `dir` key:
 
 ```yaml
 deploy:
   provider: netlify
   # ⋮
-  local_dir: "_build/"
+  dir: "_build/"
 ```
 {: data-file=".travis.yml"}
 
